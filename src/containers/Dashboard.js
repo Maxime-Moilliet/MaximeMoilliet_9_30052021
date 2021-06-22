@@ -4,6 +4,7 @@ import BigBilledIcon from '../assets/svg/big_billed.js'
 import { ROUTES_PATH } from '../constants/routes.js'
 import USERS_TEST from '../constants/usersTest.js'
 import Logout from "./Logout.js"
+import { createModal } from '../app/modal.js'
 
 export const filteredBills = (data, status) => {
   return (data && data.length) ?
@@ -81,7 +82,9 @@ export default class {
   handleClickIconEye = () => {
     const billUrl = $('#icon-eye-d').attr("data-bill-url")
     const imgWidth = Math.floor($('#modaleFileAdmin1').width() * 0.8)
-    $('#modaleFileAdmin1').find(".modal-body").html(`<div style='text-align: center;'><img width=${imgWidth} src=${billUrl} /></div>`)
+
+    const content = createModal(billUrl, imgWidth)
+    $('#modaleFileAdmin1').find(".modal-body").html(`<div style='text-align: center;'>${content}</div>`)
     if (typeof $('#modaleFileAdmin1').modal === 'function') $('#modaleFileAdmin1').modal('show')
   }
 

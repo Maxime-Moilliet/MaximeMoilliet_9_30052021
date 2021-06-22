@@ -19,6 +19,12 @@ export default class NewBill {
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
+
+    const fileInput = this.document.querySelector('input[data-testid="file"]')
+    if(file.type !== 'image/jpg' && file.type !== 'image/png' && file.type !== 'image/jpeg') {
+      return fileInput.value = ''
+    }
+
     this.firestore
       .storage
       .ref(`justificatifs/${fileName}`)

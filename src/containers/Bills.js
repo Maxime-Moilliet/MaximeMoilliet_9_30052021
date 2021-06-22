@@ -1,6 +1,7 @@
 import { ROUTES_PATH } from '../constants/routes.js'
 import { formatDate, formatStatus } from "../app/format.js"
 import Logout from "./Logout.js"
+import { createModal } from '../app/modal.js'
 
 export default class {
   constructor({ document, onNavigate, firestore, localStorage }) {
@@ -23,7 +24,9 @@ export default class {
   handleClickIconEye = (icon) => {
     const billUrl = icon.getAttribute("data-bill-url")
     const imgWidth = Math.floor($('#modaleFile').width() * 0.5)
-    $('#modaleFile').find(".modal-body").html(`<div style='text-align: center;'><img width=${imgWidth} src=${billUrl} /></div>`)
+
+    const content = createModal(billUrl, imgWidth)
+    $('#modaleFile').find('.modal-body').html(`<div style='text-align: center;'>${content}</div>`)
     $('#modaleFile').modal('show')
   }
 
@@ -47,7 +50,7 @@ export default class {
             } catch(e) {
               // if for some reason, corrupted data was introduced, we manage here failing formatDate function
               // log the error and return unformatted date in that case
-              console.log(e,'for',doc.data())
+              // console.log(e,'for',doc.data())
               return {
                 ...doc.data(),
                 date: doc.data().date,
@@ -56,7 +59,7 @@ export default class {
             }
           })
           .filter(bill => bill.email === userEmail)
-          console.log('length', bills.length)
+          // console.log('length', bills.length)
         return bills
       })
       .catch(error => error)
